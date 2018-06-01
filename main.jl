@@ -1,5 +1,5 @@
-using Metaheuristics
 using BilevelBenchmark
+include("BCA.jl")
 
 function genBounds(uBounds, lBounds, d)
 
@@ -40,25 +40,12 @@ function getBilevel(fnum::Int = 1)
 end
 
 function main()
-    # x: upper level
-    # y: lower level
     fnum = 5
 
     # problem settings
     f, F, lower_D, upper_D, lower_bounds, upper_bounds = getBilevel(fnum)
 
-    # objective function
-    Fobj(x) = begin
-        # y ∈ arg min { f(x, z) : z ∈ Y }
-        y, fval = eca( z-> f(x, z), lower_D; showResults=false, limits=lower_bounds,max_evals=1000lower_D)
-
-        # return upper level value
-        return F(x, y)
-    end
-
-    # optimize
-    x, f = eca(Fobj, upper_D; limits=upper_bounds, max_evals=500upper_D, showIter=true)
-
+    x, f = BCA(F, f, upper_D, lower_D, upper_bounds, lower_bounds)
 end
 
 main()
