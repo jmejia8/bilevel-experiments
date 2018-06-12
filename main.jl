@@ -8,22 +8,21 @@ function genBounds(uBounds, lBounds, d)
 end
 
 # configures problem
-function getBilevel(fnum::Int = 1)
-    D = 2
+function getBilevel(D, fnum::Int = 1)
     d = div(D, 2)
 
     lower_D = upper_D = D
 
-    if fnum == 1
+    if fnum == 1 || fnum == 1
         ub = [-5 10; -5 10.0]
         lb = [-5 10; -π/2 π/2]
-    elseif fnum == 2
-        ub = [ -5.0    -5; 10.0  1]
-        lb = [ -5.0  0.01; 10.0  e]
+    elseif fnum == 2 || fnum == 7
+        ub = [-5 10; -5 1.0]
+        lb = [ -5.0  10; 0.0001  e]
     elseif fnum == 4
         ub = [-5.0 10; -1  1]
         lb = [-5.0 10;  0  e]
-    elseif fnum == 5
+    elseif fnum == 5  || fnum == 6 || fnum == 8
         ub = [-5.0 10; -5.0  10.0]
         lb = [-5.0 10; -5.0  10.0]
     end
@@ -40,10 +39,11 @@ function getBilevel(fnum::Int = 1)
 end
 
 function main()
-    fnum = 5
+    D = 10
+    fnum = 2
 
     # problem settings
-    f, F, lower_D, upper_D, lower_bounds, upper_bounds = getBilevel(fnum)
+    f, F, lower_D, upper_D, lower_bounds, upper_bounds = getBilevel(D, fnum)
 
     x, f = BCA(F, f, upper_D, lower_D, upper_bounds, lower_bounds)
 end
