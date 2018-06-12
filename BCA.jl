@@ -4,6 +4,8 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
     Fobj(x) = begin
         # y ∈ arg min { f(x, z) : z ∈ Y }
         y, fval = eca( z-> f(x, z), lower_D; showResults=false,
+                                             adaptive=true,
+                                             canResizePop=true,
                                              limits=lower_bounds,
                                              max_evals=1000lower_D)
 
@@ -12,7 +14,9 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
     end
 
     # optimize
-    eca(Fobj, upper_D;limits=upper_bounds,
-                     max_evals=500upper_D,
-                     showIter=true)
+    x, F = eca(Fobj, upper_D;
+                    limits=upper_bounds,
+                    adaptive=true,
+                    max_evals=200upper_D,
+                    showIter=true)
 end
