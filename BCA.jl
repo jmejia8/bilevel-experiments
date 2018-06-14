@@ -13,7 +13,7 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
                                              limits=lower_bounds,
                                              max_evals=250lower_D)
         # return upper level value
-        return F(x, y)# + 10fval
+        return F(x, y) + 10fval
     end
 
     # optimize
@@ -21,14 +21,14 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
                     limits=upper_bounds,
                     showResults=false,
                     adaptive=true,
-                    max_evals=250upper_D,
+                    max_evals=500upper_D,
                     saveConvergence="output/leader$(current_f)_r$(current_r).csv",
                     saveLast="output/leader$(current_f)_last_r$(current_r).csv",
                     showIter=false)
 
     y, fv = eca( z-> f(x, z), lower_D; showResults=false,
                                              adaptive=true,
-                                             canResizePop=false,
+                                             canResizePop=true,
                                              limits=lower_bounds,
                                              max_evals=250lower_D)
 
