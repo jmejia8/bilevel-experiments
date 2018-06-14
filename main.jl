@@ -82,10 +82,11 @@ function main()
         writecsv("output/follower$(fnum).csv", fs[fnum,:])
     end
 
-    writecsv("summary/leader_Fx.csv", Fs)
+    writecsv("summary/leader_fx.csv", Fs)
     writecsv("summary/follower_fx.csv", fs)
 
-    printSummary("summary/leader_Fx.csv")
+    printSummary("summary/leader_fx.csv")
+    println("------------------")
     printSummary("summary/follower_fx.csv")
 end
 
