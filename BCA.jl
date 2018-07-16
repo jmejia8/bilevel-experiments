@@ -13,7 +13,7 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
                                              limits=lower_bounds,
                                              max_evals=250lower_D)
         # return upper level value
-        return F(x, y) + 10fval
+        return F(x, y)
     end
 
     # optimize
