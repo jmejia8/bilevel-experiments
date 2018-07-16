@@ -45,10 +45,10 @@ function getBilevel(fnum::Int)
     upper_bounds, lower_bounds = genBounds( ub', lb', p, q, r, s ) 
 
     # leader
-    F(x::Array{Float64}, y::Array{Float64}) =  SDM_leader(x, y, fnum, p, q, r, s)
+    F(x::Array{Float64}, y::Array{Float64}) =  SMD_leader(x, y, fnum, p, q, r, s)
 
     # follower
-    f(x::Array{Float64}, y::Array{Float64}) =SDM_follower(x, y, fnum, p, q, r, s)
+    f(x::Array{Float64}, y::Array{Float64}) =SMD_follower(x, y, fnum, p, q, r, s)
     
     return f, F, lower_D, upper_D, lower_bounds, upper_bounds
 end
@@ -57,7 +57,7 @@ function main()
     configure()
 
     FNUMS =  8
-    NRUNS = 5
+    NRUNS = 31
 
     Fs = zeros(FNUMS, NRUNS)
     fs = zeros(FNUMS, NRUNS)
@@ -90,4 +90,9 @@ function main()
     printSummary("summary/follower_fx.csv")
 end
 
+
+
 main()
+
+statsToLatex("summary/leader_fx.csv"; mapping= x->abs.(x))
+statsToLatex("summary/follower_fx.csv"; mapping= x->abs.(x))
