@@ -39,7 +39,7 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
         y, fval = best.x, best.f
 
         # return upper level value
-        return F(x, y)
+        return F(x, y) + fval
     end
 
     # optimize
@@ -65,5 +65,5 @@ function BCA(F::Function, f::Function, upper_D, lower_D, upper_bounds, lower_bou
 
     lower_nevals += nevals
 
-    return x, Fv, fv, upper_nevals, lower_nevals
+    return x, F(x, y), fv, upper_nevals+1, lower_nevals
 end

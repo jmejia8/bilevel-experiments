@@ -62,7 +62,10 @@ function main()
     Fs = zeros(FNUMS, NRUNS)
     fs = zeros(FNUMS, NRUNS)
 
-    println("f \t run \t F \t f")
+    F_evals = zeros(Int, FNUMS, NRUNS)
+    f_evals = zeros(Int, FNUMS, NRUNS)
+
+    println("f \t run \t F \t f \t F_evals \t f_evals")
     for fnum = 1:FNUMS
         global current_f = fnum
 
@@ -71,23 +74,29 @@ function main()
 
         for r = 1:NRUNS
             global current_r = r
-            x, Fv, fv = BCA(F, f, upper_D, lower_D, upper_bounds, lower_bounds)
+            x, Fv, fv, upper_nevals, lower_nevals = BCA(F, f, upper_D, lower_D, upper_bounds, lower_bounds)
             Fs[fnum, r] = Fv
             fs[fnum, r] = fv
 
-            @printf("%d \t %d \t %e \t %e\n", fnum, r, Fv, fv)
+            F_evals[fnum, r] = upper_nevals
+            f_evals[fnum, r] = lower_nevals
+
+            @printf("%d \t %d \t %e \t %e \t %d \t %d \n", fnum, r, Fv, fv, upper_nevals, lower_nevals)
         end
 
         writecsv("output/leader$(fnum).csv", Fs[fnum,:])
         writecsv("output/follower$(fnum).csv", fs[fnum,:])
+
+        writecsv("output/leader_nevals_f$(fnum).csv", F_evals[fnum,:])
+        writecsv("output/follower_nevals_f$(fnum).csv", f_evals[fnum,:])
     end
+
+    writecsv("summary/leader_nevals.csv", F_evals)
+    writecsv("summary/follower_nevals.csv", f_evals)
 
     writecsv("summary/leader_fx.csv", Fs)
     writecsv("summary/follower_fx.csv", fs)
 
-    printSummary("summary/leader_fx.csv")
-    println("------------------")
-    printSummary("summary/follower_fx.csv")
 end
 
 
